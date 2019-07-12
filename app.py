@@ -10,7 +10,6 @@ base_url = f'https://api.telegram.org/bot{token}'
 
 naver_client_id = config('NAVER_CLIENT_ID')
 naver_client_secret = config('NAVER_CLIENT_SECRET')
-naver_url = 'https://openapi.naver.com/v1/papago/n2mt'
 headers = {
         'X-Naver-Client-Id':naver_client_id,
         'X-Naver-Client-Secret':naver_client_secret
@@ -56,12 +55,12 @@ def telegram():
         chat_id = response.get('message').get('chat').get('id')
         # if 인사말이 오면,나만의 인사해주기
         if '/번역 ' == text[0:4]:
-
             data = {
                  'source' : 'ko',
                 'target' : 'en',
                 'text' : text[4:]
                 }
+            naver_url = 'https://openapi.naver.com/v1/papago/n2mt'
             response = requests.post(naver_url, headers=headers, data=data).json()
             pprint.pprint(response)
             text = response.get('message').get('result').get('translatedText')
